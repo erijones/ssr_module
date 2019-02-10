@@ -36,16 +36,21 @@ class Params:
     parameters (K), and antibiotic efficacies (eps)  associated with a gLV
     system. If no input file is provided, the default parameters from Stein et
     al. are used. rho and eps are Nx1, K is NxN. """
-    def __init__(s, filename='stein_parameters.csv'):
-        # import "messy" variables and initial conditions from .csv files
-        with open(filename, 'r') as f:
-            var_data = [line.strip().split(",") for line in f][1:]
-        with open('stein_ic.csv','r') as f:
-            ic_data = [line.strip().split(",") for line in f]
+    def __init__(s, my_params=None, filename='stein_parameters.csv'):
+        # use your own gLV parameters, if desired
+        if my_params:
+            s.labels, s.rho, s.K = my_params
 
-        # turn "messy" data and ICs into variables
-        s.labels, s.rho, s.K, s.eps = parse_data(var_data)
-        s.ics = parse_ics(ic_data)
+        else:
+            # import "messy" variables and initial conditions from .csv files
+            with open(filename, 'r') as f:
+                var_data = [line.strip().split(",") for line in f][1:]
+            with open('stein_ic.csv','r') as f:
+                ic_data = [line.strip().split(",") for line in f]
+
+            # turn "messy" data and ICs into variables
+            s.labels, s.rho, s.K, s.eps = parse_data(var_data)
+            s.ics = parse_ics(ic_data)
 
     def integrand(s, Y, t, u_params=None):
         """ Integrand for the N-dimensional generalized Lotka-Volterra
