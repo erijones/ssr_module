@@ -26,9 +26,11 @@ in the class `ssrParams`; generate this class using the parameters and steady
 state of your interest.
 4) Plot and compare (in-plane) trajectories in the high-dimensional and
 SSR-reduced systems, saved in `SSR_demo_1.pdf`.
-5) Plot the separatrix of the SSR-reduced 2D system, saved in `SSR_demo_2.pdf`
+5) Plot the separatrix of the SSR-reduced 2D system, saved in `SSR_demo_2.pdf`.
 6) Plot the in-plane separatrix of the high-dimensional system, saved in
-`SSR_demo_2.pdf`
+`SSR_demo_2.pdf`. Depending on the spatial resolution of the generated
+high-dimensional in-plane separatrix, this simulation can take a while-- use
+the `load_data` parameter to save a generated separatrix to the disk. 
 
 To use SSR yourself, generate your own `Params` class, say `p`, and generate the pair of
 steady states you intend to use for SSR, say `ssa` and `ssb`. Then generate new
