@@ -448,7 +448,7 @@ def plot_2D_separatrix(p, s, ax=None):
 
 
 def plot_ND_separatrix(p, s, ax=None, sep_filename='11D_separatrix_1e-2.data',
-                       color='b', y_max=2, label='separatrix', delta=0.001,
+                       color='b', y_max=2, label='separatrix', delta=0.01,
                        save_plot=False):
     """ Plots the in-plane 11D separatrix, which shows which steady state a
     point on the plane will tend towards. Sampling of points is done with a
@@ -466,7 +466,7 @@ def plot_ND_separatrix(p, s, ax=None, sep_filename='11D_separatrix_1e-2.data',
 
     # to save a calculated separatrix to the file, set load_data = True
     # to change the resolution of the calculated separatrix change delta
-    load_data = True
+    load_data = True 
 
     if load_data:
         with open(sep_filename, 'rb') as f:
@@ -538,4 +538,5 @@ if __name__ == '__main__':
     # more unstable steady state (i.e. the steady state with a smaller basin of
     # attraction) is listed first in the above ssrParams function; if an error
     # occurs, try switching the order of the two steady states
-    ax = plot_ND_separatrix(p, s, ax, save_plot=True)
+    ax = plot_ND_separatrix(p, s, ax, save_plot=True, label='high-dimensional separatrix',
+                            color='grey')
