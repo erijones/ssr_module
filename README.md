@@ -4,13 +4,13 @@ Supplemental Code for the Steady-State Reduction (SSR) and SSR-generated Paramet
 This repository stores supplemental code for the papers:
 
 + "Steady State Reduction of generalized Lotka-Volterra systems in the
-  microbiome," by Eric Jones and Jean Carlson, published in Phys. Rev. E in
-  2019
+  microbiome," by Eric Jones and Jean Carlson, published in Physical Review E
+  in 2019
   [(link)](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.99.032403),
   (called the SSR paper) and
 + "Control of ecological outcomes through deliberate parameter changes in a
   model of the gut microbiome", by Zipeng Wang, Eric Jones, Joshua Mueller, and
-  Jean Carlson, published in Physical Review E in 2020 [(arXiv
+  Jean Carlson, accepted to Physical Review E in 2020 [(arXiv
   link)](https://arxiv.org/abs/1912.03412) (called the SPARC paper).
 
 The code in `steady_state_reduction_example.py` generates Fig. 2 of the SSR
