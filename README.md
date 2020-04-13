@@ -82,7 +82,7 @@ end of the file, create your own `Params` container class with your own growth
 rates `rho`, interaction matrix `K`, and labels `labels` with the command `my_p
 = ssr.Params([labels, rho, K])`. Name the two steady states that define your
 bistable region of interest `ssa` and `ssb`, and compute the SSR-reduced
-parameter set with the command `my_s = ssr.ssrParams(p, ssa, ssb)`. Finally, to
+parameter set with the command `my_s = ssr.ssrParams(my_p, ssa, ssb)`. Finally, to
 generate the four-panel plot for your own gLV model starting from an initial
 condition `my_IC`, use the command `plot_all_panels(my_p, my_s, my_IC)`.
 
