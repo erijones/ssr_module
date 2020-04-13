@@ -360,7 +360,7 @@ def get_lower_bound_of_separatrix(p, s, x_min, x_max, y_min, y_max,
     for x in xs:
         for y in ys:
             ic = x*ssa + y*ssb
-            t_out, y_out = solve(p, ic, 5000)
+            t_out, y_out = solve(p, ic, 1000)
             ss = y_out[-1]
 
             if np.linalg.norm(ss - ssa) < eps:
@@ -374,7 +374,8 @@ def get_lower_bound_of_separatrix(p, s, x_min, x_max, y_min, y_max,
                 outcome_dict[x, y] = 'a'
             else:
                 outcome_dict[x, y] = '?'
-                print('no steady state attained for', x, y)
+                #print('no steady state attained for {} {}. near a: {}. near b: {}'
+                #      .format(x, y, np.linalg.norm(ss-ssa), np.linalg.norm(ss-ssb)))
 
     lower_bound_list = []
     for x in xs:
@@ -412,7 +413,7 @@ def plot_original_and_SSR_trajectories(p, s, ax=None):
         traj_high_proj = p.project_to_2D(traj_high, s.ssa, s.ssb)
 
         ax.plot(traj_2d[0,0], traj_2d[0,1], 'k.', zorder=3, ms=18)
-        if i is 0:
+        if i == 0:
             ax.plot(traj_2d[:,0], traj_2d[:,1], color='blue', label='2D trajectory')
             ax.plot(traj_high_proj[:,0], traj_high_proj[:,1], color='orange',
                     label='high-dimensional trajectory')
@@ -446,29 +447,33 @@ def plot_2D_separatrix(p, s, ax=None):
     return ax
 
 
-def plot_ND_separatrix(p, s, ax=None):
+def plot_ND_separatrix(p, s, ax=None, sep_filename='11D_separatrix_1e-2.data',
+                       color='b', y_max=2, label='separatrix', delta=0.001,
+                       save_plot=False):
     """ Plots the in-plane 11D separatrix, which shows which steady state a
     point on the plane will tend towards. Sampling of points is done with a
     bisection-like method. """
+
+    goal_delta = delta
+
     if not ax:
         ax = plt.gca()
 
     prev_lower_bound_list, delta = (
-        get_lower_bound_of_separatrix(p, s, x_min=0, x_max=1, y_min=0, y_max=2,
-                                      num_sections=2) )
+        get_lower_bound_of_separatrix(p, s, x_min=0, x_max=1, y_min=0,
+                                      y_max=y_max, num_sections=2) )
     prev_delta = delta
 
     # to save a calculated separatrix to the file, set load_data = True
     # to change the resolution of the calculated separatrix change delta
-    sep_filename = '11D_separatrix_1e-2.data'
-    load_data = False
+    load_data = True
 
     if load_data:
         with open(sep_filename, 'rb') as f:
             separatrix_lower_bound = pickle.load(f)
     else:
         print('RESOLUTION, NUMBER OF BISECTIONS')
-        while delta > .01:
+        while delta > goal_delta:
             cumulative_lower_bound_list = []
             for i in range(len(prev_lower_bound_list)-1):
                 x_min = prev_lower_bound_list[i][0]
@@ -495,10 +500,14 @@ def plot_ND_separatrix(p, s, ax=None):
         print('(reduce computation time by setting load_data = True')
 
     ax.plot(separatrix_lower_bound[:,0], separatrix_lower_bound[:,1],
-            color='grey', label='high-dimensional separatrix')
+            color=color, label=label)
+    if label:
+        ax.legend()
+
     ax.legend(fontsize=12)
-    plt.savefig('SSR_demo_3.pdf')
-    print('... saved figure to SSR_demo_3.pdf')
+    if save_plot:
+        plt.savefig('SSR_demo_3.pdf')
+        print('... saved figure to SSR_demo_3.pdf')
 
     return ax
 
@@ -529,4 +538,4 @@ if __name__ == '__main__':
     # more unstable steady state (i.e. the steady state with a smaller basin of
     # attraction) is listed first in the above ssrParams function; if an error
     # occurs, try switching the order of the two steady states
-    ax = plot_ND_separatrix(p, s, ax)
+    ax = plot_ND_separatrix(p, s, ax, save_plot=True)
